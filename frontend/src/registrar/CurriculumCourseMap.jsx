@@ -257,7 +257,7 @@ const CurriculumCourseMap = () => {
       <hr style={{ border: "1px solid #ccc", width: "100%" }} />
       <br />
 
-      {/* CURRICULUM SELECT */}
+      <Typography fontWeight={500}>Select Curriculum:</Typography>
       <FormControl sx={{ minWidth: 400, mb: 4 }}>
         <InputLabel>Choose Curriculum</InputLabel>
         <Select
@@ -430,7 +430,7 @@ const CurriculumCourseMap = () => {
                         bottom: 10,
                         right: 10,
                         padding: "8px 16px",
-                        background: mainButtonColor,
+                        background: "#1976d2",
                         color: "#fff",
                         border: "none",
                         borderRadius: 5,
