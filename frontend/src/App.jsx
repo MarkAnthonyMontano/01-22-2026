@@ -139,6 +139,7 @@ import ProgramSlotLimit from './registrar/ProgramSlotLimit';
 
 import GradingEvaluationForRegistrar from './registrar/GradingEvaluationForRegistrar';
 import CurriculumCourseMap from './registrar/CurriculumCourseMap';
+import CoursePanelMap from "./registrar/CoursePanelMap";
 
 
 // APPLICANT FOLDER
@@ -516,6 +517,8 @@ function App() {
                     <Route path="/transcript_of_records" element={<ProtectedRoute ><TranscriptOfRecords /></ProtectedRoute>} />
                     <Route path="/tosf_crud" element={<ProtectedRoute ><TOSFCrud /></ProtectedRoute>} />
                     <Route path="/program_tagging_payment" element={<ProtectedRoute ><CurriculumCourseMap /></ProtectedRoute>} />
+                    <Route path="/course_panel_prereq" element={<ProtectedRoute ><CoursePanelMap /></ProtectedRoute>} />
+
 
                     <Route path="/email_template_manager" element={<ProtectedRoute><EmailTemplateManager /></ProtectedRoute>} />
                     <Route path="/announcement" element={<ProtectedRoute><Announcement /></ProtectedRoute>} />

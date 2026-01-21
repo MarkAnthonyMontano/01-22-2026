@@ -105,10 +105,11 @@ const CourseManagement = () => {
       label: "COURSE MANAGEMENT",
       items: [
         { title: "PROGRAM TAGGING PANEL", path: "/program_tagging", icon: CollectionsBookmark, page_id: 35 },
-                { title: "PROGRAM TAGGING PAYMENT", path: "/program_tagging_payment", icon: CollectionsBookmark, page_id: 111 },
+        { title: "PROGRAM TAGGING PAYMENT", path: "/program_tagging_payment", icon: CollectionsBookmark, page_id: 111 },
         { title: "PROGRAM PANEL FORM", path: "/program_panel", icon: LibraryBooks, page_id: 34 },
         { title: "CREATE CURRICULUM", path: "/curriculum_panel", icon: EditNote, page_id: 18 },
         { title: "COURSE PANEL FORM", path: "/course_panel", icon: MenuBook, page_id: 16 },
+        { title: "COURSE PANEL PREREQUISITE", path: "/course_panel_prereq", icon: MenuBook, page_id: 112 },
       ],
     },
   ];
@@ -124,118 +125,118 @@ const CourseManagement = () => {
 
   return (
     <Box
-         sx={{
-           height: "calc(100vh - 100px)", // fixed viewport height
-           width: "100%",
-           backgroundImage,
-           backgroundRepeat: "no-repeat",
-           backgroundSize: "cover",
-           backgroundPosition: "center",
-           position: "relative",
-         }}
-       >
-         {/* Overlay */}
-         <Box
-           sx={{
-             position: "absolute",
-             inset: 0,
-             backgroundColor: "rgba(255, 249, 236, 0.55)",
-             backdropFilter: "blur(0.5px)",
-             WebkitBackdropFilter: "blur(0.5px)",
-             zIndex: 0,
-             pointerEvents: "none",
-           }}
-         />
-   
-         {/* Scrollable content */}
-         <Box
-           sx={{
-             position: "relative",
-             zIndex: 1,
-             height: "100%",        // take full height of parent
-             overflowY: "auto",     // ✅ THIS allows scrolling
-             padding: 2,
-           }}
-         >
-      {groupedMenu
-        .map((group) => ({
-          ...group,
-          items: group.items.filter((item) => userAccessList[item.page_id]),
-        }))
-        .filter((group) => group.items.length > 0)
-        .map((group, idx) => (
-          <Box key={idx} sx={{ mb: 5 }}>
-            {/* HEADER */}
-            <Box
-              sx={{
-                borderBottom: `4px solid ${borderColor}`,
-                mb: 2,
-                pb: 1,
-                paddingLeft: 2,
-              }}
-            >
-              <Typography
-                variant="h4"
+      sx={{
+        height: "calc(100vh - 100px)", // fixed viewport height
+        width: "100%",
+        backgroundImage,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "relative",
+      }}
+    >
+      {/* Overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(255, 249, 236, 0.55)",
+          backdropFilter: "blur(0.5px)",
+          WebkitBackdropFilter: "blur(0.5px)",
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Scrollable content */}
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          height: "100%",        // take full height of parent
+          overflowY: "auto",     // ✅ THIS allows scrolling
+          padding: 2,
+        }}
+      >
+        {groupedMenu
+          .map((group) => ({
+            ...group,
+            items: group.items.filter((item) => userAccessList[item.page_id]),
+          }))
+          .filter((group) => group.items.length > 0)
+          .map((group, idx) => (
+            <Box key={idx} sx={{ mb: 5 }}>
+              {/* HEADER */}
+              <Box
                 sx={{
-                  fontWeight: "bold",
-                  color: titleColor,
-                  textTransform: "uppercase",
-                  fontSize: "34px",
+                  borderBottom: `4px solid ${borderColor}`,
+                  mb: 2,
+                  pb: 1,
+                  paddingLeft: 2,
                 }}
               >
-                {group.label}
-              </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: "bold",
+                    color: titleColor,
+                    textTransform: "uppercase",
+                    fontSize: "34px",
+                  }}
+                >
+                  {group.label}
+                </Typography>
+              </Box>
+
+              <div className="p-2 px-10 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {group.items.map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link key={i} to={item.path} className="relative">
+                      {/* ICON BOX */}
+                      <div
+                        className="bg-white p-4 rounded-lg absolute left-16 top-12"
+                        style={{
+                          border: `5px solid ${borderColor}`,
+                          color: titleColor,
+                          transition: "0.2s ease-in-out",
+                        }}
+                      >
+                        <Icon sx={{ fontSize: 36, color: titleColor }} />
+                      </div>
+
+                      {/* HOVERABLE BUTTON */}
+                      <button
+                        className="bg-[#fff9ec] rounded-lg p-4 w-80 h-36 font-medium mt-20 ml-8 flex items-end justify-center"
+                        style={{
+                          border: `5px solid ${borderColor}`,
+                          color: titleColor,
+                          transition: "0.2s ease-in-out",
+                          cursor: "pointer",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = mainButtonColor;
+                          e.currentTarget.style.color = "#ffffff";
+                          e.currentTarget.style.border = `5px solid ${borderColor}`;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#fff9ec";
+                          e.currentTarget.style.color = titleColor;
+                          e.currentTarget.style.border = `5px solid ${borderColor}`;
+                        }}
+                      >
+                        {item.title}
+                      </button>
+                    </Link>
+                  );
+                })}
+              </div>
             </Box>
-
-            <div className="p-2 px-10 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {group.items.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <Link key={i} to={item.path} className="relative">
-                    {/* ICON BOX */}
-                    <div
-                      className="bg-white p-4 rounded-lg absolute left-16 top-12"
-                      style={{
-                        border: `5px solid ${borderColor}`,
-                        color: titleColor,
-                        transition: "0.2s ease-in-out",
-                      }}
-                    >
-                      <Icon sx={{ fontSize: 36, color: titleColor }} />
-                    </div>
-
-                    {/* HOVERABLE BUTTON */}
-                    <button
-                      className="bg-[#fff9ec] rounded-lg p-4 w-80 h-36 font-medium mt-20 ml-8 flex items-end justify-center"
-                      style={{
-                        border: `5px solid ${borderColor}`,
-                        color: titleColor,
-                        transition: "0.2s ease-in-out",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = mainButtonColor;
-                        e.currentTarget.style.color = "#ffffff";
-                        e.currentTarget.style.border = `5px solid ${borderColor}`;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "#fff9ec";
-                        e.currentTarget.style.color = titleColor;
-                        e.currentTarget.style.border = `5px solid ${borderColor}`;
-                      }}
-                    >
-                      {item.title}
-                    </button>
-                  </Link>
-                );
-              })}
-            </div>
-          </Box>
-        ))}
+          ))}
+      </Box>
     </Box>
-     </Box>
-    
-    
+
+
   );
 };
 

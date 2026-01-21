@@ -204,7 +204,7 @@ const CurriculumCourseMap = () => {
     backgroundColor: settings?.header_color || "#1976d2",
     border: `2px solid ${borderColor}`,
     color: "white",
-    textAlign: "left",
+    textAlign: "center",
     padding: "8px",
   };
 
@@ -223,7 +223,17 @@ const CurriculumCourseMap = () => {
   };
 
   return (
-    <Box sx={{ height: "calc(100vh - 150px)", overflowY: "auto", paddingRight: 1, backgroundColor: "transparent", mt: 1, padding: 2 }}>
+    <Box
+      sx={{
+        height: "calc(100vh - 150px)",
+        overflowY: "auto",
+        paddingRight: 1,
+        backgroundColor: "transparent",
+        mt: 1,
+        p: 2,
+      }}
+    >
+      {/* HEADER */}
       <Box
         sx={{
           display: "flex",
@@ -234,24 +244,23 @@ const CurriculumCourseMap = () => {
       >
         <Typography
           variant="h4"
-          sx={{ fontWeight: "bold", color: titleColor, fontSize: "36px" }}
+          sx={{
+            fontWeight: "bold",
+            color: titleColor,
+            fontSize: "36px",
+          }}
         >
-         CURRICULUM PAYMENT
+          CURRICULUM PAYMENT
         </Typography>
-
-
-
       </Box>
+
       <hr style={{ border: "1px solid #ccc", width: "100%" }} />
       <br />
 
-      <FormControl
-        sx={{ minWidth: 400, marginBottom: "40px" }}
-        size="medium"
-      >
-        <InputLabel id="curriculum-select-label">Choose Curriculum</InputLabel>
+      {/* CURRICULUM SELECT */}
+      <FormControl sx={{ minWidth: 400, mb: 4 }}>
+        <InputLabel>Choose Curriculum</InputLabel>
         <Select
-          labelId="curriculum-select-label"
           value={selectedCurriculum}
           label="Choose Curriculum"
           onChange={(e) => setSelectedCurriculum(e.target.value)}
@@ -259,7 +268,7 @@ const CurriculumCourseMap = () => {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {curriculumList.map(c => (
+          {curriculumList.map((c) => (
             <MenuItem key={c.curriculum_id} value={c.curriculum_id}>
               {c.program_description} {c.major}
             </MenuItem>
@@ -267,62 +276,97 @@ const CurriculumCourseMap = () => {
         </Select>
       </FormControl>
 
-      {/* GRID */}
-      {Object.keys(data).map(year => (
-        <div key={year} style={{ marginBottom: "50px" }}>
+      <Box sx={{ mt: 2, mb: 4 }}>
+        <hr
+          style={{
+            border: "none",
+            borderTop: `3px solid ${borderColor}`,
+            opacity: 0.5,
+          }}
+        />
+      </Box>
 
-          <h2>{year}</h2>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "30px"
-          }}>
-            {Object.keys(data[year]).map(sem => {
+      {/* YEARS */}
+      {Object.keys(data).map((year) => (
+        <Box key={year} sx={{ mb: 6 }}>
+          {/* YEAR TITLE */}
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: "bold",
+              color: titleColor,
+              mb: 3,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+            }}
+          >
+            {year}
+          </Typography>
+
+          {/* SEMESTERS GRID */}
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 3,
+            }}
+          >
+            {Object.keys(data[year]).map((sem) => {
               const semesterCourses = data[year][sem];
 
               return (
-                <div
+                <Box
                   key={sem}
-                  style={{
+                  sx={{
                     border: `2px solid ${borderColor}`,
-                    padding: "20px",
-                    minHeight: "300px",
-
-                    color: "black",
-                    position: "relative"
+                    p: 2,
+                    minHeight: 300,
+                    position: "relative",
                   }}
                 >
-                  <h3 style={{ marginBottom: "15px" }}>{sem}</h3>
+                  <Typography variant="h6" sx={{ mb: 2 }}>
+                    {sem}
+                  </Typography>
 
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      paddingBottom: "85px", // space for button
-                    }}
-                  >
-                    <table style={{ width: "100%", fontSize: "14px", borderCollapse: "collapse" }}>
+                  <Box sx={{ position: "relative", pb: 7 }}>
+                    <table
+                      style={{
+                        width: "100%",
+                        borderCollapse: "collapse",
+                      }}
+                    >
                       <thead>
                         <tr>
-                          <th style={headerStyle}>COURSES</th>
+                          <th style={headerStyle}>COURSE</th>
                           <th style={headerStyle}>LEC FEE</th>
                           <th style={headerStyle}>LAB FEE</th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {semesterCourses.map(course => {
-                          const edit = editedFees[course.program_tagging_id] || {};
+                        {semesterCourses.map((course) => {
+                          const edit =
+                            editedFees[course.program_tagging_id] || {};
+
                           return (
                             <tr key={course.program_tagging_id}>
-                              <td style={cellStyle}>{course.course_description}</td>
+                              <td style={cellStyle}>
+                                {course.course_description}
+                              </td>
 
-                              <td style={{ ...cellStyle, textAlign: "right" }}>
+                              <td
+                                style={{
+                                  ...cellStyle,
+                                  textAlign: "right",
+                                }}
+                              >
                                 <input
                                   type="number"
                                   value={
-                                    edit.lec_fee !== undefined ? edit.lec_fee : course.lec_fee || 0
+                                    edit.lec_fee !== undefined
+                                      ? edit.lec_fee
+                                      : course.lec_fee || 0
                                   }
                                   onChange={(e) =>
                                     handleFeeChange(
@@ -332,20 +376,27 @@ const CurriculumCourseMap = () => {
                                     )
                                   }
                                   style={{
-                                    width: "80px",
-                                    padding: "4px",
+                                    width: "90px",
+                                    padding: "6px",
                                     border: "1px solid #ccc",
-                                    borderRadius: "4px",
+                                    borderRadius: 4,
                                     textAlign: "right",
                                   }}
                                 />
                               </td>
 
-                              <td style={{ ...cellStyle, textAlign: "right" }}>
+                              <td
+                                style={{
+                                  ...cellStyle,
+                                  textAlign: "right",
+                                }}
+                              >
                                 <input
                                   type="number"
                                   value={
-                                    edit.lab_fee !== undefined ? edit.lab_fee : course.lab_fee || 0
+                                    edit.lab_fee !== undefined
+                                      ? edit.lab_fee
+                                      : course.lab_fee || 0
                                   }
                                   onChange={(e) =>
                                     handleFeeChange(
@@ -355,15 +406,14 @@ const CurriculumCourseMap = () => {
                                     )
                                   }
                                   style={{
-                                    width: "80px",
-                                    padding: "4px",
+                                    width: "90px",
+                                    padding: "6px",
                                     border: "1px solid #ccc",
-                                    borderRadius: "4px",
+                                    borderRadius: 4,
                                     textAlign: "right",
                                   }}
                                 />
                               </td>
-
                             </tr>
                           );
                         })}
@@ -372,50 +422,56 @@ const CurriculumCourseMap = () => {
 
                     {/* SAVE BUTTON */}
                     <button
-                      onClick={() => handleSaveSemester(semesterCourses)}
+                      onClick={() =>
+                        handleSaveSemester(semesterCourses)
+                      }
                       style={{
                         position: "absolute",
-                        bottom: "15px",
-                        right: "15px",
-                        mt: 2,
+                        bottom: 10,
+                        right: 10,
                         padding: "8px 16px",
-                        background: "#1976d2",
-                        color: "white",
+                        background: mainButtonColor,
+                        color: "#fff",
                         border: "none",
-                        borderRadius: "5px",
+                        borderRadius: 5,
                         cursor: "pointer",
                       }}
                     >
                       Save
                     </button>
-                  </div>
-
-
-
-                </div>
+                  </Box>
+                </Box>
               );
             })}
-          </div>
-        </div>
+          </Box>
+
+          {/* YEAR DIVIDER */}
+          <Box sx={{ mt: 5 }}>
+            <hr
+              style={{
+                border: "none",
+                borderTop: `3px solid ${borderColor}`,
+                opacity: 0.5,
+              }}
+            />
+          </Box>
+        </Box>
       ))}
 
+      {/* SNACKBAR */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
-        >
+        <Alert severity={snackbar.severity} sx={{ width: "100%" }}>
           {snackbar.message}
         </Alert>
       </Snackbar>
-
     </Box>
   );
+
 };
 
 export default CurriculumCourseMap;
